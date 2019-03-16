@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  roles:
+    - partition
+  vars:
+    block_device: /dev/sda
+    efi_partition_size: 64M
+    video_driver: vboxvideo
+    hostname: archlinux-lts-uefi

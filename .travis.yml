@@ -1,0 +1,45 @@
+---
+
+# Travis build file inspired by https://github.com/archlinux/arch-boxes
+# The attempt to automate build with https://travis-ci.com
+# Unfortunatelly fails with "VBoxManage: error: VT-x is not available (VERR_VMX_NO_VMX)"
+# Keeping for future refference
+
+language: minimal
+dist: xenial
+
+env:
+  global:
+    - PACKER_CURRENT_VERSION="$(curl -s https://checkpoint-api.hashicorp.com/v1/check/packer | jq -r -M '.current_version')"
+    - PACKER_URL="https://releases.hashicorp.com/packer/$PACKER_CURRENT_VERSION/packer_${PACKER_CURRENT_VERSION}_linux_amd64.zip"
+    - PACKER_SHA256="https://releases.hashicorp.com/packer/$PACKER_CURRENT_VERSION/packer_${PACKER_CURRENT_VERSION}_SHA256SUMS"
+    - PACKER_SHA256_SIG="https://releases.hashicorp.com/packer/$PACKER_CURRENT_VERSION/packer_${PACKER_CURRENT_VERSION}_SHA256SUMS.sig"
+    - HASHICORP_FINGERPRINT=91a6e7f85d05c65630bef18951852d87348ffc4c
+    - HASHICORP_KEY="https://keybase.io/hashicorp/pgp_keys.asc?fingerprint=${HASHICORP_FINGERPRINT}"
+
+before_install:
+  - wget ${PACKER_URL}
+  - wget ${PACKER_SHA256}
+  - wget ${PACKER_SHA256_SIG}
+  - wget -O hashicorp.key ${HASHICORP_KEY}
+  - gpg --with-fingerprint --with-colons hashicorp.key | grep ${HASHICORP_FINGERPRINT^^}
+  - gpg --import hashicorp.key
+  - gpg --verify packer_${PACKER_CURRENT_VERSION}_SHA256SUMS.sig packer_${PACKER_CURRENT_VERSION}_SHA256SUMS
+  - grep linux_amd64 packer_${PACKER_CURRENT_VERSION}_SHA256SUMS > packer_SHA256SUM_linux_amd64
+  - sha256sum --check --status packer_SHA256SUM_linux_amd64
+  - unzip packer_${PACKER_CURRENT_VERSION}_linux_amd64.zip
+  - echo "deb https://download.virtualbox.org/virtualbox/debian xenial contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+  - sudo apt-get update
+  - sudo apt-get install -y linux-headers-$(uname -r) virtualbox-6.0
+
+cache:
+  directories:
+    - iso
+
+script:
+  - ./packer build archlinux.json
+
+notifications:
+  - email: false

@@ -1,0 +1,82 @@
+{
+  "variables": {
+    "name": "archlinux-lts-uefi",
+    "vagrant_cloud_token": "{{env `VAGRANT_CLOUD_TOKEN`}}",
+    "headless": "true"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<enter><wait10><wait10><wait10><wait10><wait10>",
+        "curl --remote-name 'http://{{.HTTPIP}}:{{.HTTPPort}}/{ansible-playbook.yaml,initial-install.sh,chroot-install.sh}'<enter><wait>",
+        "bash -xe initial-install.sh && systemctl reboot<enter>"
+      ],
+      "boot_wait": "2s",
+      "http_directory": "scripts",
+      "disk_size": 102400,
+      "hard_drive_interface": "sata",
+      "hard_drive_nonrotational": true,
+      "hard_drive_discard": true,
+      "guest_os_type": "ArchLinux_64",
+      "vm_name": "{{user `name`}}",
+      "headless": "{{user `headless`}}",
+      "guest_additions_mode": "disable",
+      "iso_interface": "sata",
+      "iso_urls": [
+        "iso/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
+        "https://ftp.acc.umu.se/mirror/archlinux/iso/latest/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso"
+      ],
+      "iso_checksum_type": "sha1",
+      "iso_checksum_url": "https://mirror.rackspace.com/archlinux/iso/latest/sha1sums.txt",
+      "iso_target_path": "iso/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "sudo systemctl poweroff",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--firmware", "efi" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
+        [ "modifyvm", "{{.Name}}", "--rtcuseutc", "on" ],
+        [ "modifyvm", "{{.Name}}", "--clipboard", "bidirectional" ],
+        [ "modifyvm", "{{.Name}}", "--draganddrop", "bidirectional" ],
+        [ "modifyvm", "{{.Name}}", "--mouse", "usbtablet" ],
+        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
+        [ "modifyvm", "{{.Name}}", "--vrde", "off" ],
+        [ "modifyvm", "{{.Name}}", "--audio", "none" ],
+        [ "modifyvm", "{{.Name}}", "--usb", "on" ],
+        [ "modifyvm", "{{.Name}}", "--nictype1", "virtio" ],
+        [ "modifyvm", "{{.Name}}", "--macaddress1", "A80027C32701" ],
+        [ "storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove" ],
+        [ "setextradata", "{{.Name}}", "VBoxInternal2/EfiGraphicsResolution", "1280x720" ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash -xe '{{.Path}}'",
+      "remote_folder": "/run/user/1000",
+      "script": "scripts/provision.sh"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": false,
+        "compression_level": 9,
+        "output": "builds/{{.Provider}}-{{user `name`}}.box"
+      },
+      {
+        "type": "vagrant-cloud",
+        "no_release": true,
+        "access_token": "{{user `vagrant_cloud_token`}}",
+        "box_tag": "aurius/{{user `name`}}",
+        "version": "{{isotime \"2006.01.02\"}}"
+      }
+    ]
+  ]
+}
