@@ -28,6 +28,7 @@ Automated packer builds of the minimal Arch Linux releases for virtualbox provid
 * glibc
 * grep
 * gzip
+* haveged
 * inetutils
 * iproute2
 * iputils

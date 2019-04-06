@@ -12,7 +12,7 @@ ansible-scripts/bin/run-playbook.sh ansible-playbook.yaml
 yes | pacman --sysroot /mnt --sync --clean --clean
 
 # Install OpenSSH and VirtualBox guest additions
-pacstrap /mnt openssh linux-lts-headers virtualbox-guest-dkms virtualbox-guest-utils-nox
+pacstrap /mnt openssh haveged linux-lts-headers virtualbox-guest-dkms virtualbox-guest-utils-nox
 
 # Setup network
 cat << EOF > /mnt/etc/systemd/network/virtio.network
@@ -27,7 +27,7 @@ EOF
 arch-chroot /mnt /bin/bash -xe < chroot-install.sh
 
 # Enable services
-systemctl --root=/mnt enable systemd-networkd systemd-resolved sshd vboxservice
+systemctl --root=/mnt enable systemd-networkd systemd-resolved sshd haveged vboxservice
 
 # Set next boot to boot from hard drive
 efibootmgr --bootnext 0001
