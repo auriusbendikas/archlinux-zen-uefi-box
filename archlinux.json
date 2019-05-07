@@ -2,6 +2,7 @@
   "variables": {
     "name": "archlinux-lts-uefi",
     "vagrant_cloud_token": "{{env `VAGRANT_CLOUD_TOKEN`}}",
+    "iso_name": "archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
     "headless": "true"
   },
   "builders": [
@@ -24,12 +25,12 @@
       "guest_additions_mode": "disable",
       "iso_interface": "sata",
       "iso_urls": [
-        "iso/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
-        "https://ftp.acc.umu.se/mirror/archlinux/iso/latest/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso"
+        "iso/{{user `iso_name`}}",
+        "https://ftp.acc.umu.se/mirror/archlinux/iso/latest/{{user `iso_name`}}"
       ],
       "iso_checksum_type": "sha1",
       "iso_checksum_url": "https://mirror.rackspace.com/archlinux/iso/latest/sha1sums.txt",
-      "iso_target_path": "iso/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
+      "iso_target_path": "iso/{{user `iso_name`}}",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
