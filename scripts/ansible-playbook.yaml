@@ -3,7 +3,7 @@
   roles:
     - partition
   vars:
-    block_device: /dev/sda
-    efi_partition_size: 64M
-    video_driver: vboxvideo
-    hostname: archlinux-lts-uefi
+    partition_block_device: /dev/sda
+    partition_efi_size: 64M
+    bootloader_video_driver: vboxvideo
+    chroot_hostname: archlinux-lts-uefi
