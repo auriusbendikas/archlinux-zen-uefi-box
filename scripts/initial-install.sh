@@ -31,7 +31,7 @@ arch-chroot /mnt /bin/bash -xe < chroot-install.sh
 systemctl --root=/mnt enable systemd-networkd systemd-resolved sshd haveged vboxservice
 
 # Set next boot to boot from hard drive
-efibootmgr --bootnext 0001
+efibootmgr --bootnext 0002
 
 # Shrink VDI disk image
 fstrim --verbose /mnt/boot/efi

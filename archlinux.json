@@ -41,7 +41,7 @@
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
         [ "modifyvm", "{{.Name}}", "--rtcuseutc", "on" ],
-        [ "modifyvm", "{{.Name}}", "--clipboard", "bidirectional" ],
+        [ "modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional" ],
         [ "modifyvm", "{{.Name}}", "--draganddrop", "bidirectional" ],
         [ "modifyvm", "{{.Name}}", "--mouse", "usbtablet" ],
         [ "modifyvm", "{{.Name}}", "--vram", "128" ],
