@@ -1,7 +1,5 @@
 #!/bin/bash -xe
 
-# KMS resolution is not maintained properly with vboxvideo driver. Setting it manually to avoid switching back to default.
-echo "video=1280x720 $(cat /etc/efi-image-kernel-parameters | tr -d '[:cntrl:]')" > /etc/efi-image-kernel-parameters
 /usr/bin/generate-efi-image
 
 # Create vagrant user and group

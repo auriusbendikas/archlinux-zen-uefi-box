@@ -2,8 +2,29 @@
 - hosts: localhost
   roles:
     - partition
+    - bootloader
   vars:
-    partition_block_device: /dev/sda
-    partition_efi_size: 64M
-    bootloader_video_driver: vboxvideo
-    chroot_hostname: archlinux-lts-uefi
+    bootloader_video_driver: vboxvideo vmwgfx
+    bootloader_hostname: archlinux-lts-uefi
+    partition_disk_list:
+      - device: /dev/sda
+        partition:
+          - number: 1
+            size: 64M
+            typecode: EF00
+            name: UEFI
+          - number: 2
+            size: 0
+            typecode: 8304
+            name: ROOT
+    bootloader_mount_list:
+      - device: /dev/sda1
+        filesystem: vfat
+        options:
+        label: UEFI
+        mount: /boot/efi
+      - device: /dev/sda2
+        filesystem: ext4
+        options:
+        label: ROOT
+        mount: /

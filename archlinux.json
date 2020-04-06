@@ -9,7 +9,7 @@
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "<enter><wait10><wait10><wait10><wait10><wait10>",
+        "<up><up><enter><wait10><wait10><wait10><wait10><wait10>",
         "curl --remote-name 'http://{{.HTTPIP}}:{{.HTTPPort}}/{ansible-playbook.yaml,initial-install.sh,chroot-install.sh}'<enter><wait>",
         "bash -xe initial-install.sh && systemctl reboot<enter>"
       ],
@@ -40,18 +40,21 @@
         [ "modifyvm", "{{.Name}}", "--firmware", "efi" ],
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
+        [ "modifyvm", "{{.Name}}", "--pae", "off" ],
+        [ "modifyvm", "{{.Name}}", "--nested-hw-virt", "on" ],
+        [ "modifyvm", "{{.Name}}", "--nestedpaging", "on" ],
         [ "modifyvm", "{{.Name}}", "--rtcuseutc", "on" ],
         [ "modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional" ],
         [ "modifyvm", "{{.Name}}", "--draganddrop", "bidirectional" ],
         [ "modifyvm", "{{.Name}}", "--mouse", "usbtablet" ],
         [ "modifyvm", "{{.Name}}", "--vram", "128" ],
+        [ "modifyvm", "{{.Name}}", "--graphicscontroller", "vboxsvga" ],
         [ "modifyvm", "{{.Name}}", "--vrde", "off" ],
         [ "modifyvm", "{{.Name}}", "--audio", "none" ],
         [ "modifyvm", "{{.Name}}", "--usb", "on" ],
         [ "modifyvm", "{{.Name}}", "--nictype1", "virtio" ],
         [ "modifyvm", "{{.Name}}", "--macaddress1", "A80027C32701" ],
-        [ "storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove" ],
-        [ "setextradata", "{{.Name}}", "VBoxInternal2/EfiGraphicsResolution", "1280x720" ]
+        [ "storagectl", "{{.Name}}", "--name", "IDE Controller", "--remove" ]
       ]
     }
   ],
