@@ -34,7 +34,7 @@ Automated packer builds of the minimal Arch Linux releases for virtualbox provid
 * iputils
 * less
 * licenses
-* linux-lts
+* linux-zen
 * logrotate
 * man-db
 * man-pages
@@ -65,5 +65,5 @@ Certain packages were forcefully removed breaking dependencies, but greatly redu
 * dkms
 * gcc
 * linux-firmware
-* linux-lts-headers
+* linux-zen-headers
 * make

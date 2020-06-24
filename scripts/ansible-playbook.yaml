@@ -5,7 +5,7 @@
     - bootloader
   vars:
     bootloader_video_driver: vboxvideo vmwgfx
-    bootloader_hostname: archlinux-lts-uefi
+    bootloader_hostname: archlinux-zen-uefi
     partition_disk_list:
       - device: /dev/sda
         partition:

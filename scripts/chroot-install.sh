@@ -24,7 +24,7 @@ chmod 0600 /home/vagrant/.ssh/authorized_keys
 
 # Deleting unnecessary packages to reduce download size
 sudo pacman --remove --nosave --recursive --nodeps --nodeps --noconfirm make gcc dkms linux-firmware
-sudo pacman --remove --nosave --recursive --nodeps --nodeps --noconfirm linux-lts-headers
+sudo pacman --remove --nosave --recursive --nodeps --nodeps --noconfirm linux-zen-headers
 
 # Clean package caches
 yes | pacman --sync --clean --clean

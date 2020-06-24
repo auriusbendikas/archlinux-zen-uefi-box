@@ -13,7 +13,7 @@ ansible-scripts/bin/run-playbook.sh ansible-playbook.yaml
 yes | pacman --sysroot /mnt --sync --clean --clean
 
 # Install OpenSSH and VirtualBox guest additions
-pacstrap /mnt openssh haveged linux-lts-headers virtualbox-guest-dkms virtualbox-guest-utils-nox
+pacstrap /mnt openssh haveged linux-zen-headers virtualbox-guest-dkms virtualbox-guest-utils-nox
 
 # Setup network
 cat << EOF > /mnt/etc/systemd/network/virtio.network
