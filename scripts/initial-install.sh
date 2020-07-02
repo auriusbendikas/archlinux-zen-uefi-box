@@ -22,6 +22,10 @@ Name=en*
 
 [Network]
 DHCP=ipv4
+DNSSEC=no
+DNSOverTLS=no
+Domains=~.
+
 EOF
 
 # Run commands in arch-chroot

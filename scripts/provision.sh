@@ -1,8 +1,5 @@
 #!/bin/bash -xe
 
-# Linking systemd-resolved to /etc/resolv.conf for DNS server resolution from DHCP
-ln --symbolic --force /var/run/systemd/resolve/resolv.conf /etc/resolv.conf
-
 # Delete all logs
 rm --recursive --force /var/log/*
 
