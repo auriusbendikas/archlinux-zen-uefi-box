@@ -23,8 +23,7 @@ chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
 chmod 0600 /home/vagrant/.ssh/authorized_keys
 
 # Deleting unnecessary packages to reduce download size
-sudo pacman --remove --nosave --recursive --nodeps --nodeps --noconfirm make gcc dkms linux-firmware
-sudo pacman --remove --nosave --recursive --nodeps --nodeps --noconfirm linux-zen-headers
+sudo pacman --remove --nosave --recursive --nodeps --nodeps --noconfirm linux-firmware
 
 # Clean package caches
 yes | pacman --sync --clean --clean

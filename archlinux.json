@@ -34,6 +34,7 @@
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
+      "ssh_handshake_attempts": "1000",
       "shutdown_command": "sudo systemctl poweroff",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--firmware", "efi" ],
