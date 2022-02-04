@@ -2,9 +2,11 @@
 
 # Prepare for Ansible execution
 mount -o remount,size=768M /run/archiso/cowspace
-echo 'Server = https://ftp.acc.umu.se/mirror/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 pacman --sync --refresh --noconfirm git ansible
 git clone https://github.com/auriusbendikas/ansible-scripts
+
+# Set a Swedish pacman mirrorlist
+echo 'Server = https://ftp.acc.umu.se/mirror/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 
 # Execute Ansible provision script
 ansible-scripts/bin/run-playbook.sh ansible-playbook.yaml

@@ -1,4 +1,5 @@
 builds/
 packer_cache/
 iso/
+output-virtualbox-iso/
 *.box
