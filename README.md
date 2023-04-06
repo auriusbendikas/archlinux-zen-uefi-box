@@ -1,11 +1,11 @@
-# Tiny Arch Linux vagrant box with LTS kernel
+# Tiny Arch Linux vagrant box with ZEN kernel
 
 Automated packer builds of the minimal Arch Linux releases for virtualbox provider. Provisioned with bash and ansible scripts from [auriusbendikas/ansible-scripts](https://github.com/auriusbendikas/ansible-scripts)
 
 ## Features
 
-* Size < 400 MiB
-* LTS Linux kernel only
+* Size < 500 MiB
+* ZEN Linux kernel only
 * No boot-loader. Boot directly via [EFISTUB](https://wiki.archlinux.org/index.php/EFISTUB)
 
 ## Installed packages

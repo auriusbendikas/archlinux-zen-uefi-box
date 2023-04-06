@@ -1,6 +1,13 @@
 #!/bin/bash -xe
 
 # Prepare for Ansible execution
+echo Waiting for pacman keyring init to be done
+
+while ! systemctl show pacman-init.service | grep SubState=exited; do
+    systemctl --no-pager status -n0 pacman-init.service || true
+    sleep 1
+done
+
 mount -o remount,size=768M /run/archiso/cowspace
 pacman --sync --refresh --noconfirm git ansible
 git clone https://github.com/auriusbendikas/ansible-scripts
@@ -12,7 +19,7 @@ echo 'Server = https://ftp.acc.umu.se/mirror/archlinux/$repo/os/$arch' > /etc/pa
 ansible-scripts/bin/run-playbook.sh ansible-playbook.yaml
 
 # Clean package caches
-yes | pacman --sysroot /mnt --sync --clean --clean
+pacman --sysroot /mnt --sync --clean --clean --noconfirm
 
 # Install OpenSSH and VirtualBox guest additions
 pacstrap /mnt openssh haveged virtualbox-guest-utils-nox
