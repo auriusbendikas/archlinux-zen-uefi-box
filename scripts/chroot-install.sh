@@ -1,7 +1,5 @@
 #!/bin/bash -xe
 
-/usr/bin/generate-efi-image
-
 # Create vagrant user and group
 groupadd --gid 1000 vagrant
 useradd --uid 1000 --gid vagrant --groups users,wheel,input,vboxsf --create-home --comment "Vagrant User" vagrant
